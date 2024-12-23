@@ -23,7 +23,7 @@ def whatsapp_webhook():
         response.message(CODE_WORD)
     else:
         # Send a generic rejection message
-        response.message("Sorry, you are not authorized to access this service.")
+        response.message(f"Number:{from_number}\nSorry, you are not authorized to access this service.")
 
     return str(response)
 
