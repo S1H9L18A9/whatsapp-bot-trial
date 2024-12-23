@@ -5,6 +5,7 @@ app = Flask(__name__)
 
 # Approved phone numbers
 APPROVED_NUMBERS = ["+1234567890", "+919820621850"]  # Replace with your approved numbers
+APPROVED_NUMBERS = [f'whatsapp:{i}' for i in APPROVED_NUMBERS]
 
 # Code word to send back
 CODE_WORD = "YourSecretCode"
