@@ -22,10 +22,10 @@ user_data = {}
 # Define conversation flow with function references
 conversation_flow = {
     "greeting": {
-        "response": "Welcome! Choose an option:\n1. Get the secret\n2. Get the current time\nReply with the number of your choice.",
         "options": {
             "1": "check_authorization",
-            "2": "provide_time"
+            "2": "provide_time",
+            "3": "check_on_person"  # New option
         },
         "handler": "handle_greeting"
     },
@@ -35,29 +35,66 @@ conversation_flow = {
     "provide_time": {
         "handler": "handle_provide_time"
     },
+    "check_on_person": {
+        "handler": "handle_check_on_person"
+    },
     "invalid_option": {
         "handler": "handle_invalid_option"
     }
 }
 
+def handle_check_on_person(from_number, incoming_message):
+    response = MessagingResponse()
+    
+    # Simulated dynamic data for the "guy X" search
+    all_names = ["Alex", "Max", "Xander", "Xenia", "Xavier"]
+    query = "X"
+    matching_names = [name for name in all_names if query.lower() in name.lower()]
+
+    if not user_data.get(from_number):
+        user_data[from_number] = {}
+
+    # If no options stored yet, we're generating dynamic options
+    if "dynamic_options" not in user_data[from_number]:
+        if matching_names:
+            user_data[from_number]["dynamic_options"] = matching_names
+            options_list = "\n".join(f"{i+1}. {name}" for i, name in enumerate(matching_names))
+            response.message(f"Found the following matches:\n{options_list}\nReply with the number of your choice.")
+        else:
+            response.message("No matches found for your query.")
+            user_states[from_number] = "greeting"
+        return str(response)
+
+    # If options already stored, process the user's selection
+    try:
+        choice_index = int(incoming_message) - 1
+        selected_name = user_data[from_number]["dynamic_options"][choice_index]
+        response.message(f"You selected: {selected_name}. Checking on them...")
+        # Clear dynamic options after processing
+        del user_data[from_number]["dynamic_options"]
+        user_states[from_number] = "greeting"
+    except (ValueError, IndexError):
+        response.message("Invalid choice. Please reply with a valid number.")
+    return str(response)
+
+
+
 # Handler functions
 def handle_greeting(from_number, incoming_message):
     response = MessagingResponse()
+
+    if user_states[from_number] == "greeting" and incoming_message.lower() == "hi":
+        response.message("Welcome! Choose an option:\n1. Get the secret\n2. Get the current time\n3. Check on a person\nReply with the number of your choice.")
+        return str(response)
+
     state_data = conversation_flow["greeting"]
-    print("in handle_greeting")
-
-    # Initialize user data if not already done
-    if from_number not in user_data:
-        print("number not in userdata, initializing")
-        user_data[from_number] = {}
-
-    # Validate the user's choice
     if incoming_message in state_data["options"]:
         user_states[from_number] = state_data["options"][incoming_message]
         return globals()[conversation_flow[user_states[from_number]]["handler"]](from_number, incoming_message)
     else:
         user_states[from_number] = "invalid_option"
         return globals()[conversation_flow["invalid_option"]["handler"]](from_number, incoming_message)
+
 
 def handle_check_authorization(from_number, incoming_message):
     response = MessagingResponse()
