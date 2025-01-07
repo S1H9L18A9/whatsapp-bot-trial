@@ -44,9 +44,11 @@ conversation_flow = {
 def handle_greeting(from_number, incoming_message):
     response = MessagingResponse()
     state_data = conversation_flow["greeting"]
+    print("in handle_greeting")
 
     # Initialize user data if not already done
     if from_number not in user_data:
+        print("number not in userdata, initializing")
         user_data[from_number] = {}
 
     # Validate the user's choice
@@ -89,8 +91,10 @@ def whatsapp_webhook():
     from_number = request.form.get('From')
     incoming_message = request.form.get('Body').strip()
 
+    print('I got a message')
     # Initialize state for new user
     if from_number not in user_states:
+        print('new number, adding to user states')
         user_states[from_number] = "greeting"
 
     # Get the current state and handler function
