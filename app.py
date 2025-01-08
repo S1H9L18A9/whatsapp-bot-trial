@@ -167,7 +167,7 @@ def handle_greeting(from_number, incoming_message):
 
     state_data = conversation_flow["greeting"]
     if incoming_message in state_data["options"]:
-        user_states[from_number] = state_data["options"][incoming_message]
+        # user_states[from_number] = state_data["options"][incoming_message]
         return globals()[conversation_flow[user_states[from_number]]["handler"]](from_number, incoming_message)
     else:
         user_states[from_number] = "invalid_option"
