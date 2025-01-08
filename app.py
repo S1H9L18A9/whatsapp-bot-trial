@@ -97,9 +97,12 @@ def handle_check_on_quantity_greet(from_number, incoming_message):
 
 def get_name_match_for(input_name:str)->str | list:
     logger.debug('In the pandas part')
+    logger.debug(f'df: {df}')
     global df
     if df is None:
+        logger.debug('Starting to read df')
         df = pd.read_excel(FILE_NAME)
+        logger.debug('Reading ended')
     if (n:=input_name.strip().upper()) in df['MaterialCode'].values:
         return get_quantity_for(n)
     top_matches = process.extract(input_name, df['MaterialCode'].unique(), limit=MAX_MATCHES)
