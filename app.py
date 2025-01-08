@@ -65,16 +65,20 @@ conversation_flow = {
 
 def handle_check_on_quantity_greet(from_number, incoming_message):
     response = MessagingResponse()
-    if user_states[from_number] == 'check_on_quantity':
+    if not user_data.get(from_number):
+        user_data[from_number] = {'state':'get_code'}
+    
+    
+    if user_data[from_number]['state'] == 'get_code':
         response.message('Reply with the material code you want to check quantity for.')
-        user_states[from_number] = 'check_on_quantity2'
+        user_data[from_number]['state'] = 'check_code'
         return str(response)
-
-def handle_check_on_quantity(from_number, incoming_message):
-    response = MessagingResponse()
+    
     name_result = get_name_match_for(incoming_message)
     if type(name_result) is str:
         response.message(name_result)
+        del user_data[from_number]['state']
+        user_states[from_number] = "greeting"
         return str(response)
     #The name results in various responses. Need to process further
     return handle_check_on_person(from_number, incoming_message, name_result)
@@ -132,7 +136,7 @@ def handle_check_on_person(from_number, incoming_message, matching_names):
     response = MessagingResponse()
     
     if not user_data.get(from_number):
-        user_data[from_number] = {}
+        user_data[from_number] = {'state':'check_code'}
 
     # If no options stored yet, we're generating dynamic options
     if "dynamic_options" not in user_data[from_number]:
@@ -155,6 +159,7 @@ def handle_check_on_person(from_number, incoming_message, matching_names):
         response.message(get_quantity_for(selected_name))
         # Clear dynamic options after processing
         del user_data[from_number]["dynamic_options"]
+        del user_data[from_number]['state']
         user_states[from_number] = "greeting"
     except (ValueError, IndexError):
         response.message("Invalid choice. Please reply with a valid number.")
