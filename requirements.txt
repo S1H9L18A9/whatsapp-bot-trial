@@ -3,3 +3,4 @@ twilio==9.4.1
 Werkzeug==2.3.0
 fuzzywuzzy[speedup]>=0.18.0
 pandas
+openpyxl
