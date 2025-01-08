@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 logger.debug("This is a debug message")
 
 # global df 
-df = None
+df = ''
 FILE_NAME = 'Enterprise stock report - India.xlsx'
 MAX_MATCHES = 3
 
@@ -33,7 +33,6 @@ CODE_WORD = "YourSecretCode"
 # Store user states and data
 user_states = {}
 user_data = {}
-df = ''
 
 # Define conversation flow with function references
 conversation_flow = {
