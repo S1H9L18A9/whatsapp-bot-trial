@@ -5,6 +5,12 @@ import pandas as pd
 from fuzzywuzzy import process
 from difflib import SequenceMatcher
 from typing import Tuple
+import logging
+
+logging.basicConfig(level=logging.DEBUG)  # Set to DEBUG for verbose output
+logger = logging.getLogger(__name__)
+
+logger.debug("This is a debug message")
 
 # global df 
 df = None
@@ -220,7 +226,7 @@ def whatsapp_webhook():
     from_number = request.form.get('From')
     incoming_message = request.form.get('Body').strip()
 
-    print('I got a message')
+    logger.debug('I got a message')
     # Initialize state for new user
     if (from_number not in user_states) or (incoming_message.strip().lower()=='hi'):
         print('new number, adding to user states')
