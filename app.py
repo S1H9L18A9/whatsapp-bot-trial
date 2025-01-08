@@ -33,7 +33,7 @@ CODE_WORD = "YourSecretCode"
 # Store user states and data
 user_states = {}
 user_data = {}
-df = None
+df = ''
 
 # Define conversation flow with function references
 conversation_flow = {
@@ -99,7 +99,7 @@ def get_name_match_for(input_name:str)->str | list:
     logger.debug('In the pandas part')
     logger.debug(f'df: {df}')
     global df
-    if df is None:
+    if df =='':
         logger.debug('Starting to read df')
         df = pd.read_excel(FILE_NAME)
         logger.debug('Reading ended')
