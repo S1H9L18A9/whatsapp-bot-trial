@@ -46,7 +46,13 @@ conversation_flow = {
         "handler": "handle_provide_time"
     },
     "check_on_quantity": {
+        "handler": "handle_check_on_quantity_greet"
+    },
+    "check_on_quantity2": {
         "handler": "handle_check_on_quantity"
+    },
+    "check_on_quantity": {
+        "handler": "handle_check_on_quantity_greet"
     },
     "check_on_person": {
         "handler": "handle_check_on_person"
@@ -57,12 +63,15 @@ conversation_flow = {
 }
 
 
+def handle_check_on_quantity_greet(from_number, incoming_message):
+    response = MessagingResponse()
+    if user_states[from_number] == 'check_on_quantity':
+        response.message('Reply with the material code you want to check quantity for.')
+        user_states[from_number] = 'check_on_quantity2'
+        return str(response)
+
 def handle_check_on_quantity(from_number, incoming_message):
     response = MessagingResponse()
-    if user_states[from_number] == 'greeting':
-        response.message('Reply with the material code you want to check quantity for.')
-        user_states[from_number] = 'check_on_person'
-        return str(response)
     name_result = get_name_match_for(incoming_message)
     if type(name_result) is str:
         response.message(name_result)
@@ -167,7 +176,7 @@ def handle_greeting(from_number, incoming_message):
 
     state_data = conversation_flow["greeting"]
     if incoming_message in state_data["options"]:
-        # user_states[from_number] = state_data["options"][incoming_message]
+        user_states[from_number] = state_data["options"][incoming_message]
         return globals()[conversation_flow[user_states[from_number]]["handler"]](from_number, incoming_message)
     else:
         user_states[from_number] = "invalid_option"
