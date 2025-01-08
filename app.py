@@ -1,6 +1,15 @@
 from flask import Flask, request
 from twilio.twiml.messaging_response import MessagingResponse
 import datetime
+import pandas as pd
+from fuzzywuzzy import process
+from difflib import SequenceMatcher
+from typing import Tuple
+
+# global df 
+df = None
+FILE_NAME = 'Enterprise stock report - India.xlsx'
+MAX_MATCHES = 3
 
 app = Flask(__name__)
 
@@ -18,6 +27,7 @@ CODE_WORD = "YourSecretCode"
 # Store user states and data
 user_states = {}
 user_data = {}
+df = None
 
 # Define conversation flow with function references
 conversation_flow = {
@@ -25,7 +35,7 @@ conversation_flow = {
         "options": {
             "1": "check_authorization",
             "2": "provide_time",
-            "3": "check_on_person"  # New option
+            "3": "check_on_quantity"  # New option
         },
         "handler": "handle_greeting"
     },
@@ -35,27 +45,89 @@ conversation_flow = {
     "provide_time": {
         "handler": "handle_provide_time"
     },
+    "check_on_quantity": {
+        "handler": "handle_check_on_quantity"
+    },
     "check_on_person": {
         "handler": "handle_check_on_person"
     },
     "invalid_option": {
         "handler": "handle_invalid_option"
-    }
+    },
 }
 
-def handle_check_on_person(from_number, incoming_message):
+
+def handle_check_on_quantity(from_number, incoming_message):
+    response = MessagingResponse()
+    if user_states[from_number] == 'greeting':
+        response.message('Reply with the material code you want to check quantity for.')
+        user_states[from_number] = 'check_on_person'
+        return str(response)
+    name_result = get_name_match_for(incoming_message)
+    if type(name_result) is str:
+        response.message(name_result)
+        return str(response)
+    #The name results in various responses. Need to process further
+    return handle_check_on_person(from_number, incoming_message, name_result)
+
+
+def get_name_match_for(input_name:str)->str | list:
+    global df
+    if df is None:
+        df = pd.read_excel(FILE_NAME)
+    if (n:=input_name.strip().upper()) in df['MaterialCode'].values:
+        return get_quantity_for(n)
+    top_matches = process.extract(input_name, df['MaterialCode'].unique(), limit=MAX_MATCHES)
+    return top_matches
+
+
+def visualize_string_differences(original: str, similar: str) -> str:
+    """
+    Visualizes differences between two strings using markers:
+    - Changed characters are wrapped in *
+    - Skipped/missing characters are marked with _
+    
+    Args:
+        original: The original string to compare against
+        similar: The similar string to compare with
+    
+    Returns:
+        A string showing the differences with markers
+    """
+    matcher = SequenceMatcher(None, original, similar)
+    result = []
+    i = 0  # Index for the similar string
+    
+    for tag, orig_start, orig_end, sim_start, sim_end in matcher.get_opcodes():
+        if tag == 'equal':
+            # Characters match exactly
+            result.append(similar[sim_start:sim_end])
+        elif tag == 'replace':
+            # Characters were changed
+            result.append(f"*{similar[sim_start:sim_end]}*")
+        elif tag == 'delete':
+            # Characters in original were deleted
+            result.extend(['_'] * (orig_end - orig_start))
+        elif tag == 'insert':
+            # New characters were inserted
+            result.append(f"*{similar[sim_start:sim_end]}*")
+    
+    return ''.join(result)
+
+
+def whatsapp_format_for(names, code_wanted)->list:
+    return [f"{visualize_string_differences(code_wanted,i)} - {v}% match" for i,v in names]
+
+
+def handle_check_on_person(from_number, incoming_message, matching_names):
     response = MessagingResponse()
     
-    # Simulated dynamic data for the "guy X" search
-    all_names = ["Alex", "Max", "Xander", "Xenia", "Xavier"]
-    query = "X"
-    matching_names = [name for name in all_names if query.lower() in name.lower()]
-
     if not user_data.get(from_number):
         user_data[from_number] = {}
 
     # If no options stored yet, we're generating dynamic options
     if "dynamic_options" not in user_data[from_number]:
+        matching_names = whatsapp_format_for(matching_names, incoming_message)
         if matching_names:
             user_data[from_number]["dynamic_options"] = matching_names
             options_list = "\n".join(f"{i+1}. {name}" for i, name in enumerate(matching_names))
@@ -64,18 +136,24 @@ def handle_check_on_person(from_number, incoming_message):
             response.message("No matches found for your query.")
             user_states[from_number] = "greeting"
         return str(response)
+        
 
     # If options already stored, process the user's selection
     try:
         choice_index = int(incoming_message) - 1
         selected_name = user_data[from_number]["dynamic_options"][choice_index]
         response.message(f"You selected: {selected_name}. Checking on them...")
+        response.message(get_quantity_for(selected_name))
         # Clear dynamic options after processing
         del user_data[from_number]["dynamic_options"]
         user_states[from_number] = "greeting"
     except (ValueError, IndexError):
         response.message("Invalid choice. Please reply with a valid number.")
     return str(response)
+
+
+def get_quantity_for(selected_name)->str:
+    return df[df['MaterialCode']==selected_name][['Branch','TodayStock','BlockedStk']].to_string(index=False)
 
 
 
@@ -119,7 +197,7 @@ def handle_provide_time(from_number, incoming_message):
 
 def handle_invalid_option(from_number, incoming_message):
     response = MessagingResponse()
-    response.message("Invalid option. Please reply with 1 or 2.")
+    response.message("Invalid option. Please reply with a number in the list")
     user_states[from_number] = "greeting"  # Reset to greeting state
     return str(response)
 
@@ -130,7 +208,7 @@ def whatsapp_webhook():
 
     print('I got a message')
     # Initialize state for new user
-    if from_number not in user_states:
+    if (from_number not in user_states) or (incoming_message.strip().lower()=='hi'):
         print('new number, adding to user states')
         user_states[from_number] = "greeting"
 
