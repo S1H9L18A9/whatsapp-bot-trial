@@ -12,12 +12,12 @@ logger = logging.getLogger(__name__)
 
 logger.debug("This is a debug message")
 
+app = Flask(__name__)
 # global df 
 df = ''
 FILE_NAME = 'Enterprise stock report - India.xlsx'
 MAX_MATCHES = 3
 
-app = Flask(__name__)
 
 # Approved phone numbers
 APPROVED_NUMBERS = ["+1234567890", "+0987654321"]
@@ -97,7 +97,7 @@ def handle_check_on_quantity_greet(from_number, incoming_message):
 def get_name_match_for(input_name:str)->str | list:
     logger.debug('In the pandas part')
     logger.debug(f'df: {df}')
-    global df
+    # global df
     if df =='':
         logger.debug('Starting to read df')
         df = pd.read_excel(FILE_NAME)
