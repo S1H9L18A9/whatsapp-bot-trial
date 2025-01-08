@@ -113,13 +113,13 @@ def visualize_string_differences(original: str, similar: str) -> str:
             result.append(similar[sim_start:sim_end])
         elif tag == 'replace':
             # Characters were changed
-            result.append(f"*{similar[sim_start:sim_end]}*")
+            result.append(f" *{similar[sim_start:sim_end]}* ")
         elif tag == 'delete':
             # Characters in original were deleted
             result.extend(['_'] * (orig_end - orig_start))
         elif tag == 'insert':
             # New characters were inserted
-            result.append(f"*{similar[sim_start:sim_end]}*")
+            result.append(f" *{similar[sim_start:sim_end]}* ")
     
     return ''.join(result)
 
