@@ -70,6 +70,7 @@ conversation_flow = {
 
 
 def handle_check_on_quantity_greet(from_number, incoming_message):
+    logger.debug('I got a message')
     response = MessagingResponse()
     if not user_data.get(from_number):
         user_data[from_number] = {'state':'get_code'}
@@ -91,6 +92,7 @@ def handle_check_on_quantity_greet(from_number, incoming_message):
 
 
 def get_name_match_for(input_name:str)->str | list:
+    logger.debug('I got a message')
     global df
     if df is None:
         df = pd.read_excel(FILE_NAME)
@@ -114,6 +116,7 @@ def visualize_string_differences(original: str, similar: str) -> str:
         A string showing the differences with markers
     """
     matcher = SequenceMatcher(None, original, similar)
+    logger.debug('I got a message')
     result = []
     i = 0  # Index for the similar string
     
@@ -135,10 +138,12 @@ def visualize_string_differences(original: str, similar: str) -> str:
 
 
 def whatsapp_format_for(names, code_wanted)->list:
+    logger.debug('I got a message')
     return [f"{visualize_string_differences(code_wanted,i)} - {v}% match" for i,v in names]
 
 
 def handle_check_on_person(from_number, incoming_message, matching_names):
+    logger.debug('I got a message')
     response = MessagingResponse()
     
     if not user_data.get(from_number):
@@ -173,12 +178,14 @@ def handle_check_on_person(from_number, incoming_message, matching_names):
 
 
 def get_quantity_for(selected_name)->str:
+    logger.debug('I got a message')
     return df[df['MaterialCode']==selected_name][['Branch','TodayStock','BlockedStk']].to_string(index=False)
 
 
 
 # Handler functions
 def handle_greeting(from_number, incoming_message):
+    logger.debug('I got a message')
     response = MessagingResponse()
 
     if user_states[from_number] == "greeting" and incoming_message.lower() == "hi":
@@ -195,6 +202,7 @@ def handle_greeting(from_number, incoming_message):
 
 
 def handle_check_authorization(from_number, incoming_message):
+    logger.debug('I got a message')
     response = MessagingResponse()
     if from_number in APPROVED_NUMBERS:
         # Store secret code access timestamp in user_data
@@ -206,6 +214,7 @@ def handle_check_authorization(from_number, incoming_message):
     return str(response)
 
 def handle_provide_time(from_number, incoming_message):
+    logger.debug('I got a message')
     response = MessagingResponse()
     current_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     response.message(f"The current time is: {current_time}")
@@ -216,6 +225,7 @@ def handle_provide_time(from_number, incoming_message):
     return str(response)
 
 def handle_invalid_option(from_number, incoming_message):
+    logger.debug('I got a message')
     response = MessagingResponse()
     response.message("Invalid option. Please reply with a number in the list")
     user_states[from_number] = "greeting"  # Reset to greeting state
