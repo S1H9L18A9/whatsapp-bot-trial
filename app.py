@@ -66,6 +66,12 @@ conversation_flow = {
         "handler": "handle_invalid_option"
     },
 }
+@app.before_first_request
+def initialize_df():
+    if type(df) is str:
+        logger.debug('Starting to read df')
+        df = pd.read_excel(FILE_NAME)
+        logger.debug('Reading ended')
 
 
 def handle_check_on_quantity_greet(from_number, incoming_message):
@@ -98,10 +104,6 @@ def get_name_match_for(input_name:str)->str | list:
     logger.debug('In the pandas part')
     global df
     logger.debug(f'df: {df}')
-    if type(df) is str:
-        logger.debug('Starting to read df')
-        df = pd.read_excel(FILE_NAME)
-        logger.debug('Reading ended')
     if (n:=input_name.strip().upper()) in df['MaterialCode'].values:
         return get_quantity_for(n)
     top_matches = process.extract(input_name, df['MaterialCode'].unique(), limit=MAX_MATCHES)
