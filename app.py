@@ -66,7 +66,7 @@ conversation_flow = {
         "handler": "handle_invalid_option"
     },
 }
-@app.before_first_request
+@app.before_request
 def initialize_df():
     if type(df) is str:
         logger.debug('Starting to read df')
@@ -91,9 +91,11 @@ def handle_check_on_quantity_greet(from_number, incoming_message):
     name_result = get_name_match_for(incoming_message)
     if type(name_result) is str:
         logger.debug('I got exact answer')
+        logger.debug(name_result)
         response.message(name_result)
         del user_data[from_number]['state']
         user_states[from_number] = "greeting"
+        logger.debug('I reached exact answer return statement')
         return str(response)
     logger.debug('I need to give options')
     #The name results in various responses. Need to process further
