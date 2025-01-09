@@ -96,9 +96,8 @@ def handle_check_on_quantity_greet(from_number, incoming_message):
 
 def get_name_match_for(input_name:str)->str | list:
     logger.debug('In the pandas part')
-    global df
     logger.debug(f'df: {df}')
-    if df =='':
+    if type(df) is not pd.DataFrame:
         logger.debug('Starting to read df')
         df = pd.read_excel(FILE_NAME)
         logger.debug('Reading ended')
