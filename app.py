@@ -66,9 +66,9 @@ conversation_flow = {
         "handler": "handle_invalid_option"
     },
 }
-@app.before_request
+# @app.before_request
 def initialize_df():
-    app.before_request_funcs[None].remove(initialize_df)
+    # app.before_request_funcs[None].remove(initialize_df)
     global df
     if type(df) is str:
         logger.debug('Starting to read df')
@@ -264,4 +264,7 @@ def whatsapp_webhook():
     return handler_function(from_number, incoming_message)
 
 if __name__ == '__main__':
+    logger.debug('starting to reading')
+    initialize_df()
+    logger.debug('done reading')
     app.run(debug=True, host='0.0.0.0', port=5000)
