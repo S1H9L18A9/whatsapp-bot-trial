@@ -68,6 +68,7 @@ conversation_flow = {
 }
 @app.before_request
 def initialize_df():
+    global df
     if type(df) is str:
         logger.debug('Starting to read df')
         df = pd.read_excel(FILE_NAME)
