@@ -48,7 +48,7 @@ conversation_flow = {
         "handler": "handle_check_authorization"
     },
     "provide_time": {
-        "handler": "handle_provide_time"
+        "handler": "handle_provide_time2"
     },
     "check_on_quantity": {
         "handler": "handle_check_on_quantity_greet"
@@ -75,7 +75,17 @@ def initialize_df():
         df = pd.read_excel(FILE_NAME)
         logger.debug('Reading ended')
 
+def handle_provide_time2():
+    return handle_provide_time3()
 
+def handle_provide_time3():
+    return handle_provide_time4()
+def handle_provide_time4():
+    return handle_provide_time5()
+def handle_provide_time5():
+    return handle_provide_time6()
+def handle_provide_time6():
+    return 'why'
 def handle_check_on_quantity_greet(from_number, incoming_message):
     logger.debug('In check on quantity')
     logger.debug(f'user_data:{user_data}\nuser_states:{user_states}')
