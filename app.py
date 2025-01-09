@@ -68,6 +68,7 @@ conversation_flow = {
 }
 @app.before_request
 def initialize_df():
+    app.before_request_funcs[None].remove(initialize_df)
     global df
     if type(df) is str:
         logger.debug('Starting to read df')
