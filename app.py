@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 
 logger.debug("This is a debug message")
 
-app = Flask(__name__)
+# app = Flask(__name__)
 # global df 
 df = ''
 FILE_NAME = 'Enterprise stock report - India.xlsx'
@@ -66,14 +66,36 @@ conversation_flow = {
         "handler": "handle_invalid_option"
     },
 }
+
+def create_app():
+    app = Flask(__name__)
+    
+    
+    with app.app_context():
+        # Make df accessible globally
+        global df
+        if type(df) is str:
+            logger.debug('Starting to read df')
+            df = pd.read_excel(FILE_NAME)
+            logger.debug('Reading ended')
+        # df = initialize_dataframe()
+        
+        # Optionally store in app.config too
+        app.config['dataframe'] = df
+    
+    return app
+
+app = create_app()
+
+
 # @app.before_request
-def initialize_df():
-    # app.before_request_funcs[None].remove(initialize_df)
-    global df
-    if type(df) is str:
-        logger.debug('Starting to read df')
-        df = pd.read_excel(FILE_NAME)
-        logger.debug('Reading ended')
+# def initialize_df():
+#     # app.before_request_funcs[None].remove(initialize_df)
+#     global df
+#     if type(df) is str:
+#         logger.debug('Starting to read df')
+#         df = pd.read_excel(FILE_NAME)
+#         logger.debug('Reading ended')
 
 def handle_provide_time2():
     return handle_provide_time3()
@@ -274,7 +296,7 @@ def whatsapp_webhook():
     return handler_function(from_number, incoming_message)
 
 if __name__ == '__main__':
-    logger.debug('starting to reading')
-    initialize_df()
-    logger.debug('done reading')
+    # logger.debug('starting to reading')
+    # initialize_df()
+    # logger.debug('done reading')
     app.run(debug=True, host='0.0.0.0', port=5000)
