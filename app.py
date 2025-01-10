@@ -218,6 +218,7 @@ def handle_check_on_person(from_number, incoming_message, matching_names):
         logger.debug(selected_name)
         selected_name = selected_name.translate(str.maketrans({i:'' for i in ' _*'}))
         logger.debug(selected_name)
+        logger.debug('going in, last step')
         response.message(get_quantity_for(selected_name))
         # Clear dynamic options after processing
         del user_data[from_number]["dynamic_options"]
@@ -229,8 +230,10 @@ def handle_check_on_person(from_number, incoming_message, matching_names):
 
 
 def get_quantity_for(selected_name)->str:
-    logger.debug('Giving quantity')
-    return df[df['MaterialCode']==selected_name][['Branch','TodayStock','BlockedStk']].to_markdown(index=False, tablefmt = 'pipe')
+    logger.debug(f'Giving quantity for {selected_name}')
+    x = df[df['MaterialCode']==selected_name][['Branch','TodayStock','BlockedStk']].to_markdown(index=False, tablefmt = 'pipe')
+    logger.debug(f'x is {x}')
+    return ''.join([f'`{i}`' for i in x.splitlines()])
 
 
 
