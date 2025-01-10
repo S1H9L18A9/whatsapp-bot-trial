@@ -212,6 +212,8 @@ def handle_check_on_person(from_number, incoming_message, matching_names):
         choice_index = int(incoming_message) - 1
         selected_name = user_data[from_number]["dynamic_options"][choice_index]
         response.message(f"You selected: {selected_name}. Checking on them...")
+        logger.debug(matching_names)
+        selected_name = selected_name.translate(str.maketrans({i:'' for i in ' _*'}))
         response.message(get_quantity_for(selected_name))
         # Clear dynamic options after processing
         del user_data[from_number]["dynamic_options"]
@@ -224,7 +226,7 @@ def handle_check_on_person(from_number, incoming_message, matching_names):
 
 def get_quantity_for(selected_name)->str:
     logger.debug('Giving quantity')
-    return df[df['MaterialCode']==selected_name][['Branch','TodayStock','BlockedStk']].to_string(index=False)
+    return df[df['MaterialCode']==selected_name][['Branch','TodayStock','BlockedStk']].to_string(index=False, tablefmt = 'pipe')
 
 
 
