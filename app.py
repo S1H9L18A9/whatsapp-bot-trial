@@ -213,7 +213,11 @@ def handle_check_on_person(from_number, incoming_message, matching_names):
         selected_name = user_data[from_number]["dynamic_options"][choice_index]
         response.message(f"You selected: {selected_name}. Checking on them...")
         logger.debug(matching_names)
+        logger.debug(selected_name)
+        selected_name = ' '.join(selected_name.split('')[:3])
+        logger.debug(selected_name)
         selected_name = selected_name.translate(str.maketrans({i:'' for i in ' _*'}))
+        logger.debug(selected_name)
         response.message(get_quantity_for(selected_name))
         # Clear dynamic options after processing
         del user_data[from_number]["dynamic_options"]
