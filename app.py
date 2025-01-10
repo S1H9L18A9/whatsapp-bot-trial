@@ -226,7 +226,7 @@ def handle_check_on_person(from_number, incoming_message, matching_names):
 
 def get_quantity_for(selected_name)->str:
     logger.debug('Giving quantity')
-    return df[df['MaterialCode']==selected_name][['Branch','TodayStock','BlockedStk']].to_string(index=False, tablefmt = 'pipe')
+    return df[df['MaterialCode']==selected_name][['Branch','TodayStock','BlockedStk']].to_markdown(index=False, tablefmt = 'pipe')
 
 
 
