@@ -234,7 +234,8 @@ def get_quantity_for(selected_name)->str:
     logger.debug(f'Giving quantity for {selected_name}')
     x = df[df['MaterialCode']==selected_name][['Branch','TodayStock','BlockedStk']].to_markdown(index=False, tablefmt = 'pipe')
     logger.debug(f'x is {x}')
-    return ''.join([f'`{i}`' for i in x.splitlines()])
+    return ''.join([f'`{i}`\n' for i in x.splitlines()])
+
 
 
 
