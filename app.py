@@ -208,8 +208,8 @@ def handle_check_on_person(from_number, incoming_message, matching_names):
         
 
     # If options already stored, process the user's selection
-    # try:
-    if True:
+    try:
+    # if True:
         choice_index = int(incoming_message) - 1
         selected_name = user_data[from_number]["dynamic_options"][choice_index]
         response.message(f"You selected: {selected_name}. Checking on them...")
@@ -225,8 +225,8 @@ def handle_check_on_person(from_number, incoming_message, matching_names):
         del user_data[from_number]["dynamic_options"]
         del user_data[from_number]['state']
         user_states[from_number] = "greeting"
-    # except (ValueError, IndexError):
-    #     response.message("Invalid choice. Please reply with a valid number.")
+    except (ValueError, IndexError):
+        response.message("Invalid choice. Please reply with a valid number.")
     return str(response)
 
 
