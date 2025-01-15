@@ -310,4 +310,5 @@ if __name__ == '__main__':
     # logger.debug('starting to reading')
     # initialize_df()
     # logger.debug('done reading')
+    print('This is a test')
     app.run(debug=True, host='0.0.0.0', port=5000)
