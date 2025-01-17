@@ -1,3 +1,4 @@
+from logging.handlers import RotatingFileHandler
 from flask import Flask, request
 from twilio.twiml.messaging_response import MessagingResponse
 import datetime
@@ -9,6 +10,25 @@ import logging
 
 logging.basicConfig(level=logging.DEBUG)  # Set to DEBUG for verbose output
 logger = logging.getLogger(__name__)
+# Add a rotating file handler
+log_file = 'flask_debug.log'  # File to store logs
+file_handler = RotatingFileHandler(
+    log_file, maxBytes=5 * 1024 * 1024, backupCount=5  # 5 MB file size, 5 backups
+)
+file_handler.setLevel(logging.DEBUG)  # Set log level for the file
+
+# Set a formatter for better readability
+formatter = logging.Formatter('%(asctime)s [%(levelname)s] %(message)s')
+file_handler.setFormatter(formatter)
+
+# Add the file handler to the logger
+logger.addHandler(file_handler)
+
+# Optional: Add a console handler (if desired for consistency)
+console_handler = logging.StreamHandler()
+console_handler.setLevel(logging.DEBUG)
+console_handler.setFormatter(formatter)
+logger.addHandler(console_handler)
 
 logger.debug("This is a debug message")
 
