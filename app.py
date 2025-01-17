@@ -9,6 +9,8 @@ from typing import Tuple
 import logging
 
 logging.basicConfig(level=logging.DEBUG)  # Set to DEBUG for verbose output
+logging.getLogger('werkzeug').setLevel(logging.DEBUG)
+
 logger = logging.getLogger(__name__)
 # Add a rotating file handler
 log_file = 'flask_debug.log'  # File to store logs
