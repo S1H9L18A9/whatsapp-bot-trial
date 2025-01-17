@@ -308,9 +308,9 @@ def whatsapp_webhook():
     handler_function = globals()[handler_function_name]
     return handler_function(from_number, incoming_message)
 
-if __name__ == '__main__':
+# if __name__ == '__main__':
     # logger.debug('starting to reading')
     # initialize_df()
     # logger.debug('done reading')
-    print('This is a test')
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    # print('This is a test')
+    # app.run(debug=True, host='0.0.0.0', port=5000)
