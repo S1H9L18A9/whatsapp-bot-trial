@@ -274,12 +274,12 @@ def handle_check_authorization(from_number, incoming_message):
 
 def handle_provide_time(from_number, incoming_message):
     logger.debug('In providing time')
+    global user_data, user_states
     response = MessagingResponse()
     if not user_data.get(from_number):
         user_data[from_number] = {'state':'check_code'}
     current_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     response.message(f"The current time is: {current_time}")
-    global user_data, user_states
     logger.debug(user_data)
     logger.debug(user_states)
     logger.error(user_data)
