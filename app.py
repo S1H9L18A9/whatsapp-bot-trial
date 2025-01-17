@@ -1,4 +1,3 @@
-from logging.handlers import RotatingFileHandler
 from flask import Flask, request
 from twilio.twiml.messaging_response import MessagingResponse
 import datetime
@@ -9,28 +8,8 @@ from typing import Tuple
 import logging
 
 logging.basicConfig(level=logging.DEBUG)  # Set to DEBUG for verbose output
-logging.getLogger('werkzeug').setLevel(logging.DEBUG)
-
 logger = logging.getLogger(__name__)
-# Add a rotating file handler
-log_file = 'flask_debug.log'  # File to store logs
-file_handler = RotatingFileHandler(
-    log_file, maxBytes=5 * 1024 * 1024, backupCount=5  # 5 MB file size, 5 backups
-)
-file_handler.setLevel(logging.DEBUG)  # Set log level for the file
 
-# Set a formatter for better readability
-formatter = logging.Formatter('%(asctime)s [%(levelname)s] %(message)s')
-file_handler.setFormatter(formatter)
-
-# Add the file handler to the logger
-logger.addHandler(file_handler)
-
-# Optional: Add a console handler (if desired for consistency)
-console_handler = logging.StreamHandler()
-console_handler.setLevel(logging.DEBUG)
-console_handler.setFormatter(formatter)
-logger.addHandler(console_handler)
 
 logger.debug("This is a debug message")
 
@@ -131,6 +110,8 @@ def handle_provide_time5():
 def handle_provide_time6():
     return 'why'
 def handle_check_on_quantity_greet(from_number, incoming_message):
+    q_print_with('In check on quantity')
+    q_print_with(f'user_data:{user_data}\nuser_states:{user_states}')
     logger.debug('In check on quantity')
     logger.debug(f'user_data:{user_data}\nuser_states:{user_states}')
     response = MessagingResponse()
@@ -140,10 +121,14 @@ def handle_check_on_quantity_greet(from_number, incoming_message):
     
     if user_data[from_number]['state'] == 'get_code':
         logger.debug('I realize I need to ask to get code')
+        q_print_with('I realize I need to ask to get code')
         response.message('Reply with the material code you want to check quantity for.')
+        q_print_with(f'User data before: {user_data}')
         user_data[from_number]['state'] = 'check_code'
+        q_print_with(f'User data after: {user_data}')
         return str(response)
     logger.debug('I don need to ask for code now')
+    q_print_with('I don need to ask for code now')
     name_result = get_name_match_for(incoming_message)
     if type(name_result) is str:
         logger.debug('I got exact answer')
@@ -154,6 +139,7 @@ def handle_check_on_quantity_greet(from_number, incoming_message):
         logger.debug('I reached exact answer return statement')
         return str(response)
     logger.debug('I need to give options')
+    q_print_with('I need to give options')
     #The name results in various responses. Need to process further
     return handle_check_on_person(from_number, incoming_message, name_result)
 
@@ -209,6 +195,8 @@ def whatsapp_format_for(names, code_wanted)->list:
 
 
 def handle_check_on_person(from_number, incoming_message, matching_names):
+    q_print_with('In check on person')
+    q_print_with(f'user_data:{user_data}\nuser_states:{user_states}')
     logger.debug('In check on person')
     logger.debug(f'user_data:{user_data}\nuser_states:{user_states}')
     response = MessagingResponse()
@@ -264,12 +252,17 @@ def get_quantity_for(selected_name)->str:
 # Handler functions
 def handle_greeting(from_number, incoming_message):
     logger.debug('In greeting')
+    q_print_with('In greeting')
+    q_print_with(f'Incoming number: {from_number}')
+    q_print_with(f'Incoming message: {incoming_message}')
     response = MessagingResponse()
 
     if user_states[from_number] == "greeting" and incoming_message.lower() == "hi":
+        q_print_with('I think user says Hi')
         response.message("Welcome! Choose an option:\n1. Get the secret\n2. Get the current time\n3. Check on a person\nReply with the number of your choice.")
         return str(response)
 
+    q_print_with('It is after hi now, lets gooo')
     state_data = conversation_flow["greeting"]
     if incoming_message in state_data["options"]:
         user_states[from_number] = state_data["options"][incoming_message]
@@ -296,41 +289,53 @@ def handle_check_authorization(from_number, incoming_message):
 
 def handle_provide_time(from_number, incoming_message):
     logger.debug('In providing time')
+    q_print_with('In provide time')
     # global user_data, user_states
     response = MessagingResponse()
     if not user_data.get(from_number):
+        q_print_with(f'User data before:{user_data}    ')
         user_data[from_number] = {'state':'time_saver'}
+        q_print_with(f'User data after:{user_data}    ')
     current_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     response.message(f"The current time is: {current_time}")
-    logger.debug(user_data)
-    logger.debug(user_states)
-    logger.error(user_data)
-    logger.error(user_states)
     # Store last time request timestamp in user_data
     # user_data[from_number]["last_requested_time"] = current_time
+    q_print_with(f'User state before:{user_states}    ')
     user_states[from_number] = "greeting"
+    q_print_with(f'User state after:{user_states}    ')
     return str(response)
 
 def handle_invalid_option(from_number, incoming_message):
     logger.debug('In invalid option')
+    q_print_with('In invalid option')
     response = MessagingResponse()
     response.message("Invalid option. Please reply with a number in the list")
     user_states[from_number] = "greeting"  # Reset to greeting state
     return str(response)
 
+def q_print_with(a:str, length = 50):
+    print(a.rjust(length, '-'))
+    
+
 @app.route('/webhook', methods=['POST'])
 def whatsapp_webhook():
+    print('----------------------------------------------------------------------')
+    q_print_with('In webhook')
+    # print(request)
     from_number = request.form.get('From')
     incoming_message = request.form.get('Body').strip()
 
     logger.debug('I got a message')
     # Initialize state for new user
     if (from_number not in user_states) or (incoming_message.strip().lower()=='hi'):
-        print('new number, adding to user states')
+        q_print_with('new number, adding to user states')
+        q_print_with(f'User states before:{user_states}')
         user_states[from_number] = "greeting"
+        q_print_with(f'User states after:{user_states}')
 
     # Get the current state and handler function
     current_state = user_states[from_number]
+    q_print_with(f'Current state: {user_states[from_number]}')
     handler_function_name = conversation_flow[current_state]["handler"]
 
     # Call the appropriate handler function
