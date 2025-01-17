@@ -274,7 +274,9 @@ def handle_provide_time(from_number, incoming_message):
     response = MessagingResponse()
     current_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     response.message(f"The current time is: {current_time}")
-    
+    global user_data, user_states
+    logger.debug(user_data)
+    logger.debug(user_states)
     # Store last time request timestamp in user_data
     user_data[from_number]["last_requested_time"] = current_time
     user_states[from_number] = "greeting"
