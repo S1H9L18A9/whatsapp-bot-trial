@@ -277,6 +277,8 @@ def handle_provide_time(from_number, incoming_message):
     global user_data, user_states
     logger.debug(user_data)
     logger.debug(user_states)
+    logger.error(user_data)
+    logger.error(user_states)
     # Store last time request timestamp in user_data
     user_data[from_number]["last_requested_time"] = current_time
     user_states[from_number] = "greeting"
