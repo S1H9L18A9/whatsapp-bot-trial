@@ -277,7 +277,7 @@ def handle_provide_time(from_number, incoming_message):
     # global user_data, user_states
     response = MessagingResponse()
     if not user_data.get(from_number):
-        user_data[from_number] = {'state':'check_code'}
+        user_data[from_number] = {'state':'time_saver'}
     current_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     response.message(f"The current time is: {current_time}")
     logger.debug(user_data)
