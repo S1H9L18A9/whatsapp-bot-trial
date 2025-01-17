@@ -260,6 +260,9 @@ def handle_greeting(from_number, incoming_message):
 def handle_check_authorization(from_number, incoming_message):
     logger.debug('Checking authorization')
     response = MessagingResponse()
+    
+    if not user_data.get(from_number):
+        user_data[from_number] = {'state':'check_code'}
     if from_number in APPROVED_NUMBERS:
         # Store secret code access timestamp in user_data
         user_data[from_number]["last_accessed_secret"] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -272,6 +275,8 @@ def handle_check_authorization(from_number, incoming_message):
 def handle_provide_time(from_number, incoming_message):
     logger.debug('In providing time')
     response = MessagingResponse()
+    if not user_data.get(from_number):
+        user_data[from_number] = {'state':'check_code'}
     current_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     response.message(f"The current time is: {current_time}")
     global user_data, user_states
