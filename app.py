@@ -48,7 +48,7 @@ conversation_flow = {
         "handler": "handle_check_authorization"
     },
     "provide_time": {
-        "handler": "handle_provide_time2"
+        "handler": "handle_provide_time"
     },
     "check_on_quantity": {
         "handler": "handle_check_on_quantity_greet"
@@ -97,7 +97,7 @@ app = create_app()
 #         df = pd.read_excel(FILE_NAME)
 #         logger.debug('Reading ended')
 
-def handle_provide_time2():
+def handle_provide_time2(a, b):
     return handle_provide_time3()
 
 def handle_provide_time3():
