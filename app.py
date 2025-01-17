@@ -274,7 +274,7 @@ def handle_check_authorization(from_number, incoming_message):
 
 def handle_provide_time(from_number, incoming_message):
     logger.debug('In providing time')
-    global user_data, user_states
+    # global user_data, user_states
     response = MessagingResponse()
     if not user_data.get(from_number):
         user_data[from_number] = {'state':'check_code'}
@@ -285,7 +285,7 @@ def handle_provide_time(from_number, incoming_message):
     logger.error(user_data)
     logger.error(user_states)
     # Store last time request timestamp in user_data
-    user_data[from_number]["last_requested_time"] = current_time
+    # user_data[from_number]["last_requested_time"] = current_time
     user_states[from_number] = "greeting"
     return str(response)
 
