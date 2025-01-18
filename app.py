@@ -136,6 +136,8 @@ def handle_check_on_quantity_greet(from_number, incoming_message):
         response.message(name_result)
         del user_data[from_number]['state']
         user_states[from_number] = "greeting"
+        user_states[from_number] = "check_on_quantity"
+        user_data[from_number]['state']='check_code'
         logger.debug('I reached exact answer return statement')
         return str(response)
     logger.debug('I need to give options')
@@ -215,7 +217,7 @@ def handle_check_on_person(from_number, incoming_message, matching_names):
             response.message("No matches found for your query.")
             user_states[from_number] = "greeting"
             user_states[from_number] = "check_on_quantity"
-            user_states[from_number]['state'] = "check_code"
+            user_data[from_number]['state'] = "check_code"
         return str(response)
         
 
@@ -238,7 +240,7 @@ def handle_check_on_person(from_number, incoming_message, matching_names):
         del user_data[from_number]['state']
         user_states[from_number] = "greeting"
         user_states[from_number] = "check_on_quantity"
-        user_states[from_number]['state'] = 'check_code'
+        user_data[from_number]['state'] = 'check_code'
     except (ValueError, IndexError):
         response.message("Invalid choice. Please reply with a valid number.")
     return str(response)
