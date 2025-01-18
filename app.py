@@ -261,7 +261,7 @@ def handle_greeting(from_number, incoming_message):
 
     if user_states[from_number] == "greeting" and incoming_message.lower() == "hi":
         q_print_with('I think user says Hi')
-        greet_options = '\n'.join()
+        # greet_options = '\n'.join()
         response.message("Welcome! Choose an option:\n1. Get the secret\n2. Get the current time\n3. Check on a quantity\nReply with the number of your choice.")
         return str(response)
 
