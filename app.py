@@ -214,6 +214,7 @@ def handle_check_on_person(from_number, incoming_message, matching_names):
         else:
             response.message("No matches found for your query.")
             user_states[from_number] = "greeting"
+            user_states[from_number] = "check_code"
         return str(response)
         
 
@@ -235,6 +236,7 @@ def handle_check_on_person(from_number, incoming_message, matching_names):
         del user_data[from_number]["dynamic_options"]
         del user_data[from_number]['state']
         user_states[from_number] = "greeting"
+        user_states[from_number] = "check_code"
     except (ValueError, IndexError):
         response.message("Invalid choice. Please reply with a valid number.")
     return str(response)
