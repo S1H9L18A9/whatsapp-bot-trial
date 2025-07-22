@@ -104,10 +104,17 @@ HTML_CONTENT = """
             height: 100vh;
         }
 
+		.main-layout {
+			display: flex;
+		flex-direction: column;
+		height: 100vh;
+		}
+
         .app-container {
             display: grid;
             grid-template-columns: 320px 1fr;
-            height: 100vh;
+			height: 70%; /* You can adjust this or make it dynamic with JS */
+    min-height: 100px;
         }
 
         .sidebar {
@@ -125,14 +132,30 @@ HTML_CONTENT = """
             text-align: center;
         }
 
-        .chat-container {
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
+        
+.chat-container {
+    flex-grow: 1;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 10px;
+    padding: 15px;
+    margin: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    overflow: auto;
+}
+.btn {
+                background: rgba(255, 255, 255, 0.1);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                color: white;
+                padding: 0.5rem 1rem;
+                border-radius: 8px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+            }
+            
+            .btn:hover {
+                background: rgba(255, 255, 255, 0.2);
+                transform: translateY(-2px);
+            }
         .chat-input {
             width: 100%;
             padding: 10px;
@@ -385,14 +408,16 @@ HTML_CONTENT = """
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leader-line/1.0.7/leader-line.min.js"></script>
 </head>
 <body>
+	<div class ="main-layout">
     <div class="app-container">
         <div class="sidebar">
             <h2>🔧 Function Composer</h2>
             
-            <div class="chat-container">
+            <!--<div class="chat-container">
                 <input type="text" class="chat-input" placeholder="Ask for functions..." id="chatInput">
                 <button class="chat-btn" onclick="sendChat()">Generate Functions</button>
             </div>
+            -->
 
             <div class="functions-list" id="functionsList">
                 <h3 style="color: #64ffda; margin-bottom: 10px;">Available Functions</h3>
@@ -407,7 +432,18 @@ HTML_CONTENT = """
             <div class="canvas" id="canvas"></div>
         </div>
     </div>
-
+	<div class="chat-panel">
+                    <div class="chat-messages" id="chatMessages">
+                        <div class="message assistant">
+                            Welcome! Ask me to create functions and I'll generate them for you. Try asking for "add numbers" or "string functions".
+                        </div>
+                    </div>
+                    <div class="chat-input-area">
+                        <input type="text" class="chat-input" id="chatInput" placeholder="Ask for functions..." />
+                        <button class="btn" onclick="sendMessage()">Send</button>
+                    </div>
+                </div>
+	</div>
     <script>
         let nextBoxId = 1;
         let boxes = [];
