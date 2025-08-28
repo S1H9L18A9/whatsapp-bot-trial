@@ -1,101 +1,49 @@
- 1. Lemon Tree Amarante Beach Resort, Candolim
-Location: North Goa, near Candolim Beach
-Why it’s great: Portuguese-style architecture, cozy ambiance, pool, spa, and beach access.
-Tariff: From ₹15,000 per night
-Ideal for: Couples who want a charming, walkable beachside stay with good service 1.
-🌊 2. Estrela Do Mar Beach Resort, Calangute
-Location: Right on Calangute Beach
-Why it’s great: Beachfront cottages, private access to the beach, and candlelight dinners.
-Tariff: ₹12,000–₹17,000 per night
-Ideal for: A lively beach vibe with romantic touches 1.
-🌅 3. Bogmallo Beach Resort, Bogmalo
-Location: South Goa, near the airport
-Why it’s great: Sea-facing rooms, peaceful beach, and in-house dining.
-Tariff: ₹14,000–₹18,000 per night
-Ideal for: A quiet, scenic honeymoon with minimal travel from the airport 1.
-🏖️ 4. Royal Orchid Beach Resort & Spa, Utorda
-Location: South Goa, near Utorda Beach
-Why it’s great: Large pool, spa, beach access, and good vegetarian options.
-Tariff: ₹16,000–₹18,000 per night
-Ideal for: Couples who want a mix of luxury and affordability 1.
-🌺 5. Casa Severina, Calangute
-Location: Tucked away near Calangute Beach
-Why it’s great: Boutique heritage-style hotel with a peaceful vibe and elegant rooms.
-Tariff: ₹13,000–₹16,000 per night
-Ideal for: Introverted couples looking for a quiet, romantic escape 1.
-Would you like me to help you narrow this down based on:
+#!/usr/bin/env python3
+import fcntl
+import time
+import random
+import os
+from datetime import datetime
 
-North vs South Goa
-Private pool or spa
-Vegetarian food options
-Airport proximity
-Let me know what matters most to you and Sahil, and I’ll refine the list or help you book!
+def safe_write_to_file(filename, content, max_retries=10):
+    """Safely write to file with file locking and retries"""
+    for attempt in range(max_retries):
+        try:
+            with open(filename, 'a') as f:
+                # Try to get exclusive lock (non-blocking)
+                fcntl.flock(f.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
+                f.write(content + '\n')
+                f.flush()  # Force write to disk
+                print(f"[SCRIPT A] Successfully wrote: {content.strip()}")
+                return True
+                
+        except (IOError, OSError) as e:
+            print(f"[SCRIPT A] Attempt {attempt + 1}: File locked, retrying in {0.1 + attempt * 0.05}s")
+            time.sleep(0.1 + attempt * 0.05)  # Exponential backoff
+            continue
+    
+    print(f"[SCRIPT A] FAILED to write after {max_retries} attempts: {content.strip()}")
+    return False
 
-Veg options, private pool
-Copilot said:
-Copilot
-Here are some honeymoon-friendly beach resorts in Goa that offer private pools and cater well to vegetarian preferences, all within your budget of ₹15,000–₹18,000 per night:
+def main():
+    filename = "shared_log.txt"
+    script_name = "SCRIPT_B"
+    
+    print(f"[{script_name}] Starting - will write 20 lines with random delays")
+    
+    for i in range(20):
+        timestamp = datetime.now().strftime("%H:%M:%S.%f")[:-3]
+        message = f"[{timestamp}] {script_name} - Line {i+1:02d} - PID:{os.getpid()}"
+        
+        # Random delay between writes (0.1 to 2 seconds)
+        delay = random.uniform(0.1, 2.0)
+        print(f"[{script_name}] Waiting {delay:.2f}s before writing line {i+1}")
+        time.sleep(delay)
+        
+        # Try to write to shared file
+        safe_write_to_file(filename, message)
+    
+    print(f"[{script_name}] Finished writing all lines")
 
-🌴 1. Royal Orchid Beach Resort & Spa, Utorda
-Location: South Goa, near Utorda Beach
-Private Pool: Yes, available in select suites
-Vegetarian Options: Multiple veg dishes in their buffet and à la carte menus
-Tariff: ₹16,000–₹18,000 per night
-Why it’s great: Quiet beach, spacious rooms, spa, and romantic ambiance 1
-🌊 2. Lemon Tree Amarante Beach Resort, Candolim
-Location: North Goa, close to Candolim Beach
-Private Pool: Available in their luxury suites
-Vegetarian Options: Dedicated vegetarian menu available
-Tariff: ₹15,000–₹17,000 per night
-Why it’s great: Portuguese-style charm, cozy vibe, and walkable beach access 1
-🌅 3. Vivanta by Taj – Fort Aguada
-Location: Candolim, near Fort Aguada
-Private Pool: Yes, in premium cottages
-Vegetarian Options: Taj’s restaurants are known for excellent vegetarian cuisine
-Tariff: Starts around ₹11,750, premium rooms may go up to ₹18,000
-Why it’s great: Heritage charm, sea views, and top-tier service 1
-🏖️ 4. Estrela Do Mar Beach Resort, Calangute
-Location: On Calangute Beach
-Private Pool: Available in luxury cottages
-Vegetarian Options: Good veg selection in their multi-cuisine restaurant
-Tariff: ₹14,000–₹17,000 per night
-Why it’s great: Beachfront, lively atmosphere, and romantic dining 1
-Would you like help booking one of these or checking availability for your exact dates? I can also help you compare North vs South Goa based on your vibe preferences.
-
-Also, would you like me to remember that you prefer vegetarian food and private pools for future travel suggestions?
-
-
-1
-Favicon type
-20 Honeymoon Resorts In Goa For A Memorable Staycation 2025
-traveltriangle.com
-
-
-
-
-
-
-
-
-You said:
-
-Can you confirm if these are the rates available on the days I want to go?
-Copilot said:
-Copilot
-Here’s a confirmed option that fits your preferences for a honeymoon in Goa in the second week of December 2025, with vegetarian food, private pool access, and within your ₹15,000–₹18,000 budget:
-
-🌺 Whiteflower Cottages, Vagator
-Location: Small Vagator, Bardez, North Goa
-Private Pool: Yes – indoor swimming pool and pool-view rooms
-Vegetarian-Friendly: On-site restaurant with vegetarian options
-Tariff: Approx. ₹16,000–₹18,000 per night (based on current listings)
-Why it’s great: Boutique vibe, peaceful setting, close to Vagator and Ozran beaches, excellent reviews (4.8/5 on Tripadvisor 1)
-Extras: Free Wi-Fi, airport transfers, garden, sun terrace, and indoor games
-🔗 Visit Website
-
-Would you like me to help you:
-
-Check exact availability for your dates?
-Compare this with a South Goa option?
-Or help you book this directly?
-Let me know how you'd like to proceed!
+if __name__ == "__main__":
+    main()
