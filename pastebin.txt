@@ -5,45 +5,47 @@ import random
 import os
 from datetime import datetime
 
-def safe_write_to_file(filename, content, max_retries=10):
-    """Safely write to file with file locking and retries"""
+def safe_add_line(filename, line, max_retries=10):
+    """Safely add a line to file with file locking"""
     for attempt in range(max_retries):
         try:
             with open(filename, 'a') as f:
-                # Try to get exclusive lock (non-blocking)
                 fcntl.flock(f.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
-                f.write(content + '\n')
-                f.flush()  # Force write to disk
-                print(f"[SCRIPT A] Successfully wrote: {content.strip()}")
+                f.write(line + '\n')
+                f.flush()
+                print(f"[WRITER] Added line: {line}")
                 return True
                 
         except (IOError, OSError) as e:
-            print(f"[SCRIPT A] Attempt {attempt + 1}: File locked, retrying in {0.1 + attempt * 0.05}s")
-            time.sleep(0.1 + attempt * 0.05)  # Exponential backoff
+            print(f"[WRITER] Attempt {attempt + 1}: File locked, retrying...")
+            time.sleep(0.1 + attempt * 0.05)
             continue
     
-    print(f"[SCRIPT A] FAILED to write after {max_retries} attempts: {content.strip()}")
+    print(f"[WRITER] FAILED to write: {line}")
     return False
 
 def main():
-    filename = "shared_log.txt"
-    script_name = "SCRIPT_B"
+    filename = "shared_queue.txt"
     
-    print(f"[{script_name}] Starting - will write 20 lines with random delays")
+    print("[WRITER] Starting - will add folder names every 2-5 seconds")
     
-    for i in range(20):
-        timestamp = datetime.now().strftime("%H:%M:%S.%f")[:-3]
-        message = f"[{timestamp}] {script_name} - Line {i+1:02d} - PID:{os.getpid()}"
+    folder_counter = 1
+    
+    while folder_counter <= 50:  # Add 50 folders total
+        # Create folder name
+        folder_name = f"stage1_{folder_counter:03d}"
         
-        # Random delay between writes (0.1 to 2 seconds)
-        delay = random.uniform(0.1, 2.0)
-        print(f"[{script_name}] Waiting {delay:.2f}s before writing line {i+1}")
+        # Add to queue file
+        safe_add_line(filename, folder_name)
+        
+        folder_counter += 1
+        
+        # Random delay between additions (2-5 seconds)
+        delay = random.uniform(2.0, 5.0)
+        print(f"[WRITER] Waiting {delay:.1f}s before next folder...")
         time.sleep(delay)
-        
-        # Try to write to shared file
-        safe_write_to_file(filename, message)
     
-    print(f"[{script_name}] Finished writing all lines")
+    print("[WRITER] Finished adding all folders")
 
 if __name__ == "__main__":
     main()
