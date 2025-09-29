@@ -1,4 +1,13 @@
-# whatsapp-bot-trial
-https://teams.microsoft.com/meet/3462105410442?p=CupSkmLfvkWYl4RaEj
-https://drive.google.com/file/d/19wvU7SaN40TTXN8zDQSOVndqj3AUvcGz/view?usp=drivesdk
-https://drive.google.com/drive/folders/16MTr2ZhR7HKF3ubg3JJl9jNVP3ZHJBaj?usp=sharing
+Microsoft Teams Need help? 
+Join the meeting now 
+Meeting ID: 256 090 917 241 4 
+Passcode: ts2gG2P7 
+________________________________________
+Dial in by phone 
++1 860-785-9736,,888760307# United States, Hartford 
+Find a local number 
+Phone conference ID: 888 760 307# 
+Join on a video conferencing device 
+Tenant key: 330319201@t.plcm.vc 
+Video ID: 114 528 109 8 
+More info 
