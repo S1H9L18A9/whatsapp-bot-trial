@@ -2,6 +2,161 @@ Microsoft Teams Need help?
 Join the meeting now 
 Meeting ID: 256 090 917 241 4 
 Passcode: ts2gG2P7 
+📊 Quick Comparison
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ModelPriceMic QualityDurabilityNotesJBL Endurance Run 2$20FairIPX5 sweatproofSports-oriented inline mic 🏃Skullcandy Jib~$8BasicLightCheap and disposableSony MDR-XB55AP$15–20FairDurable cableEmphasized bass soundAmazon Basics$10–15GoodDecentComfortable, value-for-moneySamsung Tuned by AKG$20–25GoodBraided cableSimilar sound signature you like with AKGLogitech Zone Wired Earbuds$75ExcellentBusiness-gradeNoise-cancelling, pro for meetingsSennheiser IE 100 Pro~$100ExcellentStudio-gradeTop-tier audio, needs mic cable adapterShure SE215 PRO~$99Very Good (with mic cable)HighDetachable cable design
+
+🧭 Recommendation
+
+
+Best value & mic clarity: Samsung Tuned by AKG USB-C
+
+Balanced sound, inline mic, fits your previous brand familiarity.
+
+
+
+Pro-level meeting gear: Logitech Zone Wired Earbuds
+
+Premium mic clarity with noise suppression, ideal for frequent Teams calls.
+
+
+
+Most budget-conscious durable: JBL Endurance Run 2 or Amazon Basics
+
+Cheap, reliable, inline mic; you can afford replacements.
+
+
+
+
+You can adjust mic sensitivity within your OS or communication software for that extra dB boost. Let me know if you want direct links to any of these or help picking one!
+Would you like me to shortlist the best under ₹2,000 options available in India for you?
+SourcesProvide your feedback on BizChatYou said: There was once a mic which was external, like there was an adjustable metal part with a 2.5mm jack that slot into the mic. That kept the mic close to my lips. Anything like that in the budget?Copilot said: CopilotHere are several affordable boom mic attachments and earbuds with adjustable booms that match what you're describing—i.e., an external mic on a flexible/metal gooseneck, plugged via 2.5 mm or 3.5 mm jack, that position the mic closer to your mouth:
+
+🎙️ Boom Mic Attachments (Budget Options)
+1. Yammee 2.5 mm Detachable Game Boom Microphone
+
+Features a bendable boom arm and noise-cancelling omnidirectional capsule.
+Plugs into any headset with a 2.5 mm mic jack—perfect to retrofit your current earphones. [walmart.com]
+Priced around $9–10, great value.
+
+2. Alibaba “2.5 mm detachable boom mic” Modules
+
+Generic gooseneck mics sold in bulk (minimum orders) for $0.40–$2 each. [alibaba.com]
+Great if you’re okay with simple component-level attachments to your existing headset.
+
+3. Cellet Premium Mono 2.5 mm Boom Headset
+
+Mono over-ear earpiece with adjustable headband and flexible boom.
+Designed initially for office landlines—including 2.5 mm plugs. [amazon.com], [walmart.com]
+Available used/new for around ₹1,200–₹1,500 ($14–15).
+
+
+🎧 Earbuds With Built-In Boom Mic
+4. Five Below Wired Earbuds with Boom Mic
+
+Ultra-budget (~$5), with adjustable boom mic, ear cushions, and 3.5 mm jack. [fivebelow.com]
+Sensitivity ~ 103 dB; mic gain callbacks aren't stated but can be amplified via software.
+
+
+⚙️ Versatile & Premium Attachments
+5. V‑Moda BoomPro (3.5 mm)
+
+Flexible boom with mute switch and in-line volume wheel.
+Designed for headsets with 3.5 mm input, offering clear, close mic pickup.
+
+6. Meze Boom Mic (3.5 mm, ~₹6,500)
+
+Premium metal/carbontine boom with inline mute/volume, omnidirectional capsule, modular design. [mezeaudio.com]
+
+7. Audio-Technica ATGM2 Boom Mic
+
+Originally for headphones, pivoting metal/boom arm, with hypercardioid condenser capsule. [audio-technica.com]
+Uses 3.5 mm plug + adapter; moderate price (~$40–60 used).
+
+
+✅ Your Best Budget Picks
+
+Absolute Best Value: Yammee 2.5 mm boom mic (~₹800–₹1,200). Retrofit to any AKG earphones with 2.5 mm input.
+Solid Mid-tier Option: Cellet Boom Headset (~₹1,200). Self-contained with adjustable earpiece and boom.
+Lowest-Cost DIY Part: Bulk Alibaba boom modules (~₹30–₹160 each) if you're comfortable wiring and sourcing offline.
+
+
+🔊 Mic Gain / Volume Tips
+
+Earbuds rarely let you boost mic dB onboard.
+Use your OS or Teams settings to increase mic gain.
+If you go for BoomPro or Meze, they include volume controls built into the cable.
+
+
+These boom mic options should let you position the mic close to your lips—ideal for clearer speech on Teams—while fitting your wire preference and price range. Let me know if you'd like direct Indian purchase links or installation guidance!
+Do you want me to find Indian purchase links for these boom mic options under ₹1,500?
 ________________________________________
 Dial in by phone 
 +1 860-785-9736,,888760307# United States, Hartford 
